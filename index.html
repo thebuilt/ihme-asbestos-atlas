@@ -245,18 +245,123 @@
       <div class="section-head">
         <div>
           <p class="eyebrow">Method</p>
-          <h2>How the evidence-gap layer works</h2>
+          <h2>How the evidence-gap layer is simplified</h2>
         </div>
       </div>
+      <div class="note-banner">
+        <strong>Important:</strong> The blind-spot score and coverage score shown on this site are
+        prototype composite indicators created for exploratory visualization. They are not official
+        IHME metrics.
+      </div>
       <div class="formula-card">
-        <code>gap score = 0.35 × burden percentile + 0.25 × uncovered population share + 0.20 × uncertainty + 0.10 × source staleness + 0.10 × source sparsity</code>
+        <code>Prototype demo formula: gap score = 0.35 × burden percentile + 0.25 × uncovered population share + 0.20 × uncertainty + 0.10 × source staleness + 0.10 × source sparsity</code>
       </div>
       <p class="methods-copy">
-        In production, burden values should come directly from IHME GBD exports, while coverage
-        inputs should be refreshed from the GBD Sources Tool, Epi Visualization, mortality tools, and
-        country profile context. This prototype already separates direct indicators from inferred
-        scores so the methodology remains transparent.
+        In production, burden values should come directly from IHME GBD exports, while evidence
+        context should be refreshed from the GBD Sources Tool, Epi Visualization, mortality tools,
+        and country profile context. This prototype deliberately separates direct indicators from
+        inferred scores so the simplifications remain visible.
       </p>
+
+      <div class="method-grid">
+        <article class="method-card">
+          <h3>What Is Official vs. Inferred</h3>
+          <p>
+            The intended official inputs for this atlas are IHME burden estimates, IHME source
+            metadata, and IHME uncertainty outputs. By contrast, the <code>coverage score</code>,
+            <code>blind-spot score</code>, and <code>uncovered population share</code> shown in this
+            prototype are inferred constructs created for this website.
+          </p>
+          <ul class="method-list">
+            <li>Official or intended official inputs: GBD burden estimates, source metadata, uncertainty intervals.</li>
+            <li>Inferred prototype inputs: coverage score, blind-spot score, uncovered population share, and weighting scheme.</li>
+            <li>These inferred metrics are visual aids for exploration, not formal IHME indicators.</li>
+          </ul>
+        </article>
+
+        <article class="method-card">
+          <h3>Why These Weights Were Used</h3>
+          <p>
+            The weights <code>0.35 / 0.25 / 0.20 / 0.10 / 0.10</code> were judgment-based design
+            choices. They were chosen to emphasize disease burden first, then population potentially
+            outside observed coverage, then uncertainty, with smaller penalties for older and sparser
+            source environments.
+          </p>
+          <p>
+            These weights were not copied from IHME and do not represent an endorsed methodology from
+            IHME, WHO, OECD, or any other institution. They were informed by general guidance on
+            composite indicators and health data quality, especially the principle that weighting
+            should follow an explicit conceptual framework and that weights often reflect analytic
+            judgment rather than objective truth.
+          </p>
+        </article>
+
+        <article class="method-card">
+          <h3>Assumptions</h3>
+          <ul class="method-list">
+            <li>Higher estimated burden should increase priority even when evidence quality varies.</li>
+            <li>Larger uncovered population share may indicate greater risk of under-observation.</li>
+            <li>Greater uncertainty can act as a caution signal for weaker or less stable evidence environments.</li>
+            <li>Older source inputs reduce confidence in how current the evidence picture is.</li>
+            <li>Fewer available sources may indicate thinner evidence support, while not measuring quality directly.</li>
+            <li>Combining these dimensions into one score is useful for communication, even though it compresses complexity.</li>
+          </ul>
+        </article>
+
+        <article class="method-card">
+          <h3>Possible Limitations</h3>
+          <ul class="method-list">
+            <li>The blind-spot score is not an official IHME indicator.</li>
+            <li>The weighting scheme is heuristic and judgment-based.</li>
+            <li>Different weighting choices could materially change the rankings.</li>
+            <li>Uncertainty is an imperfect proxy for evidence weakness.</li>
+            <li>Source count does not equal source quality.</li>
+            <li>Population outside reported coverage is an inferred approximation, not a universal observed statistic.</li>
+            <li>Country-level averages may hide important subnational asbestos hotspots.</li>
+            <li>This visualization should identify questions and priorities, not make definitive claims about surveillance adequacy.</li>
+          </ul>
+        </article>
+
+        <article class="method-card">
+          <h3>Why These Simplifications Are Used</h3>
+          <p>
+            These simplifications are acceptable for an exploratory dashboard because the aim is to
+            help users detect patterns, compare places, and identify where deeper evidence review may
+            be warranted. They are not a substitute for formal methodological reporting, and this site
+            should always label the evidence-gap layer as experimental, inferred, or prototype.
+          </p>
+        </article>
+
+        <article class="method-card">
+          <h3>References</h3>
+          <ul class="method-list references">
+            <li><a href="https://www.oecd.org/content/dam/oecd/en/publications/reports/2008/08/handbook-on-constructing-composite-indicators-methodology-and-user-guide_g1gh9301/9789264043466-en.pdf" target="_blank" rel="noreferrer">OECD/JRC Handbook on Constructing Composite Indicators</a>: supports the view that weights in composite indicators follow a conceptual framework and are ultimately value judgments.</li>
+            <li><a href="https://iris.who.int/bitstream/handle/10665/259224/9789241512725-eng.pdf" target="_blank" rel="noreferrer">WHO Data Quality Review Toolkit, Module 1</a>: supports data-quality dimensions such as completeness, timeliness, consistency, and denominator comparison.</li>
+            <li><a href="https://www.healthdata.org/sites/default/files/2024-06/IHME_GBD_2021_DATA_TOOLS_GUIDE_06262024.pdf" target="_blank" rel="noreferrer">IHME GBD 2021 Data Tools Guide</a>: explains how to interpret GBD outputs and why larger uncertainty can reflect thinner or less consistent evidence.</li>
+            <li><a href="https://www.healthdata.org/research-analysis/library/global-incidence-prevalence-years-lived-disability-ylds-disability" target="_blank" rel="noreferrer">IHME GBD 2021 disease and injury analysis summary</a>: supports uncertainty-aware interpretation of burden estimates.</li>
+            <li><a href="https://www.healthdata.org/research-analysis/library/global-burden-288-causes-death-and-life-expectancy-decomposition-204" target="_blank" rel="noreferrer">IHME GBD 2021 causes of death analysis summary</a>: supports the role of propagated uncertainty in cause-specific estimates.</li>
+          </ul>
+          <p>
+            The choice of weights in this prototype is an inference informed by these general
+            methodological references. It is not a published rule from any of the sources above.
+          </p>
+        </article>
+
+        <article class="method-card full-span">
+          <h3>Disclaimers</h3>
+          <ul class="method-list">
+            <li>This website is an exploratory data-visualization prototype and is provided for informational purposes only.</li>
+            <li>This website does not provide medical advice, diagnosis, treatment advice, legal advice, occupational safety advice, or regulatory advice.</li>
+            <li>The blind-spot score, coverage score, uncovered population share, and related rankings are inferred prototype metrics created for this site and are not official IHME outputs.</li>
+            <li>References to IHME sources describe data inputs or methodological inspiration and do not imply endorsement, review, certification, or affiliation by IHME.</li>
+            <li>Results shown here should not be used as the sole basis for clinical decisions, legal claims, compensation claims, regulatory enforcement, investment decisions, or public policy decisions.</li>
+            <li>No representation or warranty is made that the visualizations are complete, current, error-free, or fit for any particular purpose.</li>
+            <li>Users should verify all important findings against original IHME materials and other authoritative sources before relying on them.</li>
+            <li>Country-level values may conceal important subnational differences, missing populations, or data limitations.</li>
+            <li>By using this site, users accept that exploratory rankings and summaries may change as methods, weights, assumptions, or source data are updated.</li>
+          </ul>
+        </article>
+      </div>
     </section>
   </div>
 
