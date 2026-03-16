@@ -388,6 +388,48 @@ svg {
   font-size: 1.2rem;
 }
 
+.label-with-help {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.help-btn {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--ink);
+  font: inherit;
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+  line-height: 1;
+}
+
+.help-panel {
+  margin-top: 14px;
+  padding: 14px 16px;
+  border-radius: 18px;
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.help-title {
+  margin: 0;
+  color: var(--gold);
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+}
+
+.help-body {
+  margin: 8px 0 0;
+  color: var(--muted);
+  line-height: 1.68;
+}
+
 .meter-card {
   padding: 18px;
   text-align: center;
@@ -486,6 +528,182 @@ svg {
 .source-panel {
   display: flex;
   flex-direction: column;
+}
+
+.score-explainer {
+  margin-top: 18px;
+}
+
+.score-grid,
+.simple-steps {
+  display: grid;
+  gap: 16px;
+}
+
+.score-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  padding: 18px 20px 0;
+}
+
+.score-card,
+.step-card,
+.toy-example,
+.child-note {
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 22px;
+}
+
+.score-card,
+.toy-example,
+.child-note {
+  padding: 18px;
+}
+
+.score-card h4,
+.toy-example h4 {
+  margin: 0;
+  font-family: "Fraunces", serif;
+  font-size: 1.3rem;
+}
+
+.score-card p,
+.step-card p,
+.toy-example p,
+.child-note {
+  color: var(--muted);
+  line-height: 1.72;
+}
+
+.kid-formula {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  margin-top: 16px;
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  min-height: 38px;
+  padding: 0 14px;
+  border-radius: 999px;
+  font-weight: 700;
+}
+
+.pill.good {
+  background: rgba(95, 225, 207, 0.16);
+  color: #baf8ef;
+}
+
+.pill.bad {
+  background: rgba(255, 86, 97, 0.16);
+  color: #ffb8bd;
+}
+
+.operator {
+  color: var(--gold);
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+.meter-row {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 10px;
+  align-items: center;
+  margin-top: 16px;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.mini-ramp {
+  height: 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.small-note {
+  margin: 14px 0 0;
+}
+
+.kid-stack {
+  display: grid;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.stack-row {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr auto;
+  gap: 12px;
+  align-items: center;
+}
+
+.stack-label,
+.stack-value {
+  font-size: 0.9rem;
+}
+
+.stack-label {
+  color: var(--ink);
+}
+
+.stack-value {
+  color: var(--muted);
+  font-weight: 700;
+}
+
+.stack-bar {
+  height: 14px;
+  border-radius: 999px;
+}
+
+.burden-fill {
+  background: linear-gradient(90deg, #ffb56f, #ff8a3d);
+}
+
+.coverage-gap-fill {
+  background: linear-gradient(90deg, #ffd166, #f6e05e);
+}
+
+.uncertainty-fill {
+  background: linear-gradient(90deg, #ff8892, #ff5661);
+}
+
+.staleness-fill {
+  background: linear-gradient(90deg, #7aa6ff, #4b74e6);
+}
+
+.sparsity-fill {
+  background: linear-gradient(90deg, #ca8dff, #9b5cff);
+}
+
+.simple-steps {
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  padding: 18px 20px 0;
+}
+
+.step-card {
+  padding: 16px;
+}
+
+.step-card strong {
+  display: block;
+  line-height: 1.5;
+}
+
+.toy-example,
+.child-note {
+  margin: 18px 20px 0;
+}
+
+.child-note {
+  margin-bottom: 20px;
+  background:
+    linear-gradient(135deg, rgba(95, 225, 207, 0.08), rgba(255, 209, 102, 0.08)),
+    rgba(255, 255, 255, 0.03);
 }
 
 .source-grid {
@@ -620,7 +838,9 @@ code {
   .atlas-grid,
   .analysis-grid,
   .signal-strip,
-  .method-grid {
+  .method-grid,
+  .score-grid,
+  .simple-steps {
     grid-template-columns: 1fr;
   }
 

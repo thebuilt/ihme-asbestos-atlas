@@ -147,17 +147,27 @@
                   <strong id="spotlight-burden">-</strong>
                 </article>
                 <article>
-                  <span class="mini-label">Coverage</span>
+                  <span class="mini-label label-with-help">
+                    Coverage
+                    <button class="help-btn" type="button" data-help="coverage" aria-label="Explain coverage score">?</button>
+                  </span>
                   <strong id="spotlight-coverage">-</strong>
                 </article>
                 <article>
-                  <span class="mini-label">Gap Score</span>
+                  <span class="mini-label label-with-help">
+                    Gap Score
+                    <button class="help-btn" type="button" data-help="gap" aria-label="Explain gap score">?</button>
+                  </span>
                   <strong id="spotlight-gap">-</strong>
                 </article>
                 <article>
                   <span class="mini-label">Last Input Year</span>
                   <strong id="spotlight-year">-</strong>
                 </article>
+              </div>
+              <div id="help-panel" class="help-panel" hidden>
+                <p id="help-title" class="help-title">Score help</p>
+                <p id="help-body" class="help-body"></p>
               </div>
             </div>
             <div class="meter-card">
@@ -239,6 +249,116 @@
         </div>
         <div id="source-grid" class="source-grid"></div>
       </article>
+    </section>
+
+    <section class="score-explainer panel">
+      <div class="panel-head">
+        <div>
+          <p class="panel-kicker">Score Explainer</p>
+          <h3>How the scores work in very simple words</h3>
+        </div>
+      </div>
+      <div class="score-grid">
+        <article class="score-card">
+          <h4>Coverage Score</h4>
+          <p>
+            Think of this like a <strong>confidence meter</strong>. A higher score means the country
+            appears to have a stronger and more visible evidence picture in this prototype.
+          </p>
+          <div class="kid-formula">
+            <span class="pill good">More coverage</span>
+            <span class="operator">+</span>
+            <span class="pill good">More sources</span>
+            <span class="operator">-</span>
+            <span class="pill bad">More uncertainty</span>
+          </div>
+          <div class="meter-row">
+            <span>Weak support</span>
+            <div class="mini-ramp coverage-ramp"></div>
+            <span>Stronger support</span>
+          </div>
+          <p class="small-note">
+            So if we can see more of the population, have more source material, and the estimates are
+            less uncertain, the coverage score goes up.
+          </p>
+        </article>
+
+        <article class="score-card">
+          <h4>Blind-Spot Score</h4>
+          <p>
+            Think of this like a <strong>worry meter</strong>. A higher score means a country may be
+            both important and under-observed at the same time.
+          </p>
+          <div class="kid-stack">
+            <div class="stack-row">
+              <span class="stack-label">Big disease burden</span>
+              <div class="stack-bar burden-fill" style="width: 35%"></div>
+              <span class="stack-value">35%</span>
+            </div>
+            <div class="stack-row">
+              <span class="stack-label">Lots of people outside coverage</span>
+              <div class="stack-bar coverage-gap-fill" style="width: 25%"></div>
+              <span class="stack-value">25%</span>
+            </div>
+            <div class="stack-row">
+              <span class="stack-label">High uncertainty</span>
+              <div class="stack-bar uncertainty-fill" style="width: 20%"></div>
+              <span class="stack-value">20%</span>
+            </div>
+            <div class="stack-row">
+              <span class="stack-label">Old source information</span>
+              <div class="stack-bar staleness-fill" style="width: 10%"></div>
+              <span class="stack-value">10%</span>
+            </div>
+            <div class="stack-row">
+              <span class="stack-label">Very few sources</span>
+              <div class="stack-bar sparsity-fill" style="width: 10%"></div>
+              <span class="stack-value">10%</span>
+            </div>
+          </div>
+          <p class="small-note">
+            If a country has high burden, many people outside likely coverage, high uncertainty, old
+            inputs, and only a few sources, the blind-spot score goes up.
+          </p>
+        </article>
+      </div>
+
+      <div class="simple-steps">
+        <article class="step-card">
+          <strong>1. Look at the disease</strong>
+          <p>If the disease burden looks bigger than in many other countries, that adds to concern.</p>
+        </article>
+        <article class="step-card">
+          <strong>2. Look at missing visibility</strong>
+          <p>If a lot of people appear to be outside reported coverage, that adds to concern.</p>
+        </article>
+        <article class="step-card">
+          <strong>3. Look at uncertainty</strong>
+          <p>If the estimate is fuzzy, wide, or unstable, that adds to concern.</p>
+        </article>
+        <article class="step-card">
+          <strong>4. Look at how old the sources are</strong>
+          <p>If the latest source is old, the picture may be outdated.</p>
+        </article>
+        <article class="step-card">
+          <strong>5. Look at how many sources exist</strong>
+          <p>If there are only a few sources, the evidence picture may be thin.</p>
+        </article>
+      </div>
+
+      <div class="toy-example">
+        <h4>Toy Example</h4>
+        <p>
+          Imagine two countries. Country A has a lot of disease, many people outside coverage, and
+          only a few old sources. Country B has less disease and many recent sources. Country A gets a
+          higher blind-spot score because it looks more important and less visible at the same time.
+        </p>
+      </div>
+
+      <div class="child-note">
+        <strong>Child-simple version:</strong> The blind-spot score asks, <em>"Could something big be
+        happening here while we still cannot see it clearly?"</em>
+      </div>
     </section>
 
     <section id="methods" class="methods-panel">

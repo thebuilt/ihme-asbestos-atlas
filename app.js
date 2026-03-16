@@ -27,6 +27,10 @@ const dom = {
   spotlightGap: document.getElementById("spotlight-gap"),
   spotlightYear: document.getElementById("spotlight-year"),
   spotlightStory: document.getElementById("spotlight-story"),
+  helpButtons: Array.from(document.querySelectorAll(".help-btn")),
+  helpPanel: document.getElementById("help-panel"),
+  helpTitle: document.getElementById("help-title"),
+  helpBody: document.getElementById("help-body"),
   meterProgress: document.getElementById("meter-progress"),
   meterScore: document.getElementById("meter-score"),
   trendTitle: document.getElementById("trend-title"),
@@ -64,6 +68,17 @@ const modeMeta = {
     label: "Blind-spot score",
     palette: ["#1c2d48", "#7241ff", "#d150ff", "#ff5661"],
     className: "blind_spots-ramp"
+  }
+};
+
+const helpContent = {
+  coverage: {
+    title: "Coverage Score",
+    body: "This is a simple confidence-style score. It goes up when the country appears to have more coverage and more source material, and it goes down when the estimate is more uncertain. Child-simple version: higher coverage score means we can probably see the picture more clearly."
+  },
+  gap: {
+    title: "Gap Score",
+    body: "This is the blind-spot or worry score. It goes up when disease burden is high, many people seem outside coverage, uncertainty is high, sources are old, or there are only a few sources. Child-simple version: higher gap score means something important may be happening while the picture is still blurry."
   }
 };
 
@@ -524,6 +539,23 @@ function bindEvents() {
     button.addEventListener("click", () => {
       state.mode = button.dataset.mode;
       refresh();
+    });
+  });
+
+  dom.helpButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      const content = helpContent[button.dataset.help];
+      if (!content) return;
+      const isSame = dom.helpPanel.dataset.activeHelp === button.dataset.help && !dom.helpPanel.hidden;
+      if (isSame) {
+        dom.helpPanel.hidden = true;
+        dom.helpPanel.dataset.activeHelp = "";
+        return;
+      }
+      dom.helpTitle.textContent = content.title;
+      dom.helpBody.textContent = content.body;
+      dom.helpPanel.hidden = false;
+      dom.helpPanel.dataset.activeHelp = button.dataset.help;
     });
   });
 }
