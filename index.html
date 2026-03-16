@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IHME Asbestos Burden and Evidence Atlas</title>
+  <meta
+    name="description"
+    content="A high-impact prototype dashboard for asbestos-related diseases and evidence gaps, shaped for IHME GBD and source-tool exports."
+  />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <div class="page-shell">
+    <section class="hero">
+      <div class="hero-copy">
+        <p class="eyebrow">IHME Intelligence Prototype</p>
+        <h1>Asbestos Burden and Evidence Atlas</h1>
+        <p class="intro">
+          This prototype turns the IHME ecosystem into a single visual story: where asbestos-related
+          diseases hit hardest, where exposure-linked burden persists, and where the world is still
+          under-observed. The current dataset is a synthesis scaffold designed to accept official IHME
+          exports from GBD Results, GBD Sources, and related visualization tools.
+        </p>
+        <div class="hero-actions">
+          <a href="#atlas" class="hero-link">Open the Atlas</a>
+          <a href="#methods" class="hero-link secondary">See the Method</a>
+        </div>
+      </div>
+
+      <div class="hero-metrics">
+        <article class="metric-card">
+          <span class="metric-label">Priority Disease</span>
+          <strong id="hero-disease">Mesothelioma</strong>
+          <p>Primary view currently driving the atlas state.</p>
+        </article>
+        <article class="metric-card">
+          <span class="metric-label">Blind-Spot Countries</span>
+          <strong id="hero-blind-spots">0</strong>
+          <p>Countries with evidence-gap score above the global alert threshold.</p>
+        </article>
+        <article class="metric-card">
+          <span class="metric-label">People Outside Coverage</span>
+          <strong id="hero-uncovered">0</strong>
+          <p>Population living outside the inferred reporting coverage represented here.</p>
+        </article>
+        <article class="metric-card">
+          <span class="metric-label">Most Exposed Storyline</span>
+          <strong id="hero-hotspot">-</strong>
+          <p>Country combining high burden intensity with thin source support.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="signal-strip">
+      <article class="signal-card">
+        <p class="signal-title">What is official</p>
+        <p>
+          Disease burden structure is modeled on IHME GBD Results outputs and source metadata patterns
+          from the GBD Sources Tool.
+        </p>
+      </article>
+      <article class="signal-card">
+        <p class="signal-title">What is inferred</p>
+        <p>
+          The evidence coverage score and uncovered-population estimate are prototype metrics derived
+          from source count, recency, uncertainty, and population exposure.
+        </p>
+      </article>
+      <article class="signal-card">
+        <p class="signal-title">What this becomes</p>
+        <p>
+          A production-grade atlas once official IHME exports are dropped into the same JSON schema.
+        </p>
+      </article>
+    </section>
+
+    <section id="atlas" class="atlas-shell">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Global Atlas</p>
+          <h2>Burden, Evidence, and Blind Spots</h2>
+        </div>
+        <p class="section-copy">
+          Switch the disease lens, choose the map mode, and compare the world’s burden against the
+          strength of the observed evidence underneath it.
+        </p>
+      </div>
+
+      <div class="control-bar">
+        <label class="field">
+          <span>Disease Lens</span>
+          <select id="disease-select"></select>
+        </label>
+        <label class="field">
+          <span>Year</span>
+          <select id="year-select"></select>
+        </label>
+        <div class="toggle-group" aria-label="Map mode">
+          <button class="toggle active" data-mode="burden" type="button">Burden</button>
+          <button class="toggle" data-mode="coverage" type="button">Coverage</button>
+          <button class="toggle" data-mode="blind_spots" type="button">Blind Spots</button>
+        </div>
+      </div>
+
+      <div class="atlas-grid">
+        <article class="panel map-panel">
+          <div class="panel-head">
+            <div>
+              <p class="panel-kicker">World Map</p>
+              <h3 id="map-title">Mesothelioma burden intensity</h3>
+            </div>
+            <div class="legend-box">
+              <span id="legend-min">Lower</span>
+              <div id="legend-ramp" class="legend-ramp burden-ramp"></div>
+              <span id="legend-max">Higher</span>
+            </div>
+          </div>
+          <div id="map-wrap" class="map-wrap">
+            <svg id="world-map" viewBox="0 0 920 500" aria-label="Global asbestos disease atlas"></svg>
+            <div id="map-tooltip" class="tooltip" hidden></div>
+          </div>
+        </article>
+
+        <article class="panel spotlight-panel">
+          <div class="panel-head">
+            <div>
+              <p class="panel-kicker">Country Spotlight</p>
+              <h3 id="spotlight-title">Select a country</h3>
+            </div>
+          </div>
+          <div class="spotlight-grid">
+            <div class="spotlight-copy">
+              <p id="spotlight-summary" class="spotlight-summary">
+                Click any mapped country to see its burden pattern, source environment, and likely
+                weak points in the evidence chain.
+              </p>
+              <div class="spotlight-metrics">
+                <article>
+                  <span class="mini-label">Burden</span>
+                  <strong id="spotlight-burden">-</strong>
+                </article>
+                <article>
+                  <span class="mini-label">Coverage</span>
+                  <strong id="spotlight-coverage">-</strong>
+                </article>
+                <article>
+                  <span class="mini-label">Gap Score</span>
+                  <strong id="spotlight-gap">-</strong>
+                </article>
+                <article>
+                  <span class="mini-label">Last Input Year</span>
+                  <strong id="spotlight-year">-</strong>
+                </article>
+              </div>
+            </div>
+            <div class="meter-card">
+              <div class="meter-ring">
+                <svg viewBox="0 0 120 120" aria-hidden="true">
+                  <circle cx="60" cy="60" r="42" class="meter-track"></circle>
+                  <circle id="meter-progress" cx="60" cy="60" r="42" class="meter-progress"></circle>
+                </svg>
+                <div class="meter-value">
+                  <span id="meter-score">0</span>
+                  <small>/100</small>
+                </div>
+              </div>
+              <p class="meter-label">Evidence Coverage Score</p>
+            </div>
+          </div>
+          <div class="story-box">
+            <p class="story-title">Why this country matters</p>
+            <p id="spotlight-story" class="story-copy">
+              The atlas will surface a narrative here based on burden trajectory, source support, and
+              uncovered population risk.
+            </p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="analysis-grid">
+      <article class="panel">
+        <div class="panel-head">
+          <div>
+            <p class="panel-kicker">Signal Space</p>
+            <h3>Burden vs. Coverage</h3>
+          </div>
+        </div>
+        <p class="panel-copy">
+          Upper-left is the danger zone: high burden with low evidence coverage. Bubble size reflects
+          uncovered population.
+        </p>
+        <svg id="scatterplot" viewBox="0 0 620 380" aria-label="Scatterplot of burden versus coverage"></svg>
+      </article>
+
+      <article class="panel">
+        <div class="panel-head">
+          <div>
+            <p class="panel-kicker">Blind Spot Ranking</p>
+            <h3>Where the world is least observed</h3>
+          </div>
+        </div>
+        <p class="panel-copy">
+          This ranking is intentionally ruthless: it prioritizes burden, uncertainty, recency, and the
+          share of population outside inferred source coverage.
+        </p>
+        <svg id="ranking-chart" viewBox="0 0 620 380" aria-label="Ranking of countries by evidence gap"></svg>
+      </article>
+    </section>
+
+    <section class="analysis-grid lower">
+      <article class="panel">
+        <div class="panel-head">
+          <div>
+            <p class="panel-kicker">Trend Theater</p>
+            <h3 id="trend-title">Selected country trajectory</h3>
+          </div>
+        </div>
+        <p class="panel-copy">
+          Four anchor years show how the burden story changed from 1990 to 2021 under the selected
+          disease lens.
+        </p>
+        <svg id="trend-chart" viewBox="0 0 620 340" aria-label="Trend chart of disease burden"></svg>
+      </article>
+
+      <article class="panel source-panel">
+        <div class="panel-head">
+          <div>
+            <p class="panel-kicker">IHME Surface Map</p>
+            <h3>Where each layer comes from</h3>
+          </div>
+        </div>
+        <div id="source-grid" class="source-grid"></div>
+      </article>
+    </section>
+
+    <section id="methods" class="methods-panel">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Method</p>
+          <h2>How the evidence-gap layer works</h2>
+        </div>
+      </div>
+      <div class="formula-card">
+        <code>gap score = 0.35 × burden percentile + 0.25 × uncovered population share + 0.20 × uncertainty + 0.10 × source staleness + 0.10 × source sparsity</code>
+      </div>
+      <p class="methods-copy">
+        In production, burden values should come directly from IHME GBD exports, while coverage
+        inputs should be refreshed from the GBD Sources Tool, Epi Visualization, mortality tools, and
+        country profile context. This prototype already separates direct indicators from inferred
+        scores so the methodology remains transparent.
+      </p>
+    </section>
+  </div>
+
+  <script src="./vendor/d3.min.js"></script>
+  <script src="./vendor/topojson-client.min.js"></script>
+  <script src="./app.js"></script>
+</body>
+</html>
