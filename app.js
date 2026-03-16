@@ -75,6 +75,22 @@ function formatValue(value) {
   return Number(value || 0).toFixed(0);
 }
 
+function getBurdenSeries(country) {
+  if (!country || !country.burden) return {};
+  const selected = country.burden[state.selectedDisease];
+  if (selected) return selected;
+  const firstKey = Object.keys(country.burden)[0];
+  return firstKey ? country.burden[firstKey] : {};
+}
+
+function getBurdenValue(country, year) {
+  const series = getBurdenSeries(country);
+  if (series[String(year)] != null) return Number(series[String(year)]);
+  const availableYears = Object.keys(series).sort();
+  if (!availableYears.length) return 0;
+  return Number(series[availableYears[availableYears.length - 1]] || 0);
+}
+
 function percentile(values, input) {
   const sorted = values.slice().sort((a, b) => a - b);
   const index = sorted.findIndex((value) => value >= input);
@@ -83,9 +99,8 @@ function percentile(values, input) {
 }
 
 function computeDerived(country) {
-  const burdenSeries = country.burden[state.selectedDisease];
-  const burdenNow = burdenSeries[String(state.selectedYear)];
-  const values = state.atlas.countries.map((entry) => entry.burden[state.selectedDisease][String(state.selectedYear)]);
+  const burdenNow = getBurdenValue(country, state.selectedYear);
+  const values = state.atlas.countries.map((entry) => getBurdenValue(entry, state.selectedYear));
   const burdenPct = percentile(values, burdenNow);
   const uncoveredShare = (country.uncovered_population_millions / country.population_millions) * 100;
   const sourceStaleness = Math.max(0, (2021 - country.last_input_year) * 12.5);
@@ -425,7 +440,7 @@ function renderTrend() {
   const country = getSelectedCountry();
   const series = state.atlas.years.map((year) => ({
     year,
-    value: country.burden[state.selectedDisease][String(year)]
+    value: getBurdenValue(country, year)
   }));
   const x = d3.scalePoint().domain(series.map((d) => d.year)).range([0, innerWidth]);
   const y = d3.scaleLinear().domain([0, d3.max(series, (d) => d.value) + 10]).range([innerHeight, 0]);
